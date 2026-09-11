@@ -1,91 +1,355 @@
 course:
   id: highlevel-local-payments-integration
-  title: "HighLevel - Local Payments Integration"
-  level: "Beginner to Intermediate"
+  slug: local-payments
+  catalog_number: '01'
+  title: HighLevel - Local Payments Integration
+  level: Beginner to Intermediate
+  format: Live interactive workshop
   audience:
-    description: "Slightly technical non-coders familiar with automation tools and HighLevel."
+    description: Slightly technical non-coders familiar with automation tools and HighLevel.
     prerequisites:
-      - "Basic familiarity with HighLevel"
-      - "Comfort using automation tools"
-      - "Basic understanding of online payments"
-  outcome: >
-    Students can connect a local payment provider to HighLevel, collect payments,
-    receive payment events, and automate the customer journey without needing to
-    become full-stack developers.
+    - Basic familiarity with HighLevel
+    - Comfort using automation tools
+    - Basic understanding of online payments
+  outcome: Connect a local payment provider to HighLevel, confirm payments reliably, trigger CRM automations, and take the integration live without becoming a full-stack developer.
   modules:
-    - number: 1
-      title: "How Payments Work Inside HighLevel"
-      lessons:
-        - "Where payments appear in HighLevel"
-        - "Products, offers, order forms, invoices, payment links, and funnels"
-        - "Native vs external payment providers"
-        - "Payment lifecycle: checkout, authorization, confirmation, webhook, CRM automation"
-        - "Test mode vs live mode"
-        - "Transaction IDs and payment statuses"
-        - "What a local payments integration needs to do"
-      practical: "Map a simple HighLevel payment flow from checkout to CRM automation."
-
-    - number: 2
-      title: "Understanding Local Payment Providers"
-      lessons:
-        - "Examples: Xendit, PayMongo, Maya, GCash-supported flows, and regional providers"
-        - "API keys explained for non-coders"
-        - "Public keys vs secret keys"
-        - "Payment methods and channels"
-        - "Redirect checkout vs embedded checkout"
-        - "Fees and settlement"
-        - "Webhooks explained simply"
-        - "Sandbox and test environments"
-        - "Security basics"
-      practical: "Create a provider sandbox account and make a successful test transaction."
-
-    - number: 3
-      title: "Connecting Local Payments to HighLevel"
-      lessons:
-        - "Integration architecture"
-        - "HighLevel to integration to payment provider flow"
-        - "Using middleware instead of modifying HighLevel"
-        - "Connecting a HighLevel sub-account"
-        - "OAuth and Marketplace installation concepts"
-        - "Mapping customer, order, product, amount, and currency"
-        - "Creating a payment session"
-        - "Sending the customer to checkout"
-        - "Returning the customer to HighLevel"
-      practical: "Connect a sample local provider and generate a working test checkout."
-
-    - number: 4
-      title: "Webhooks, Automations, and Payment Status"
-      lessons:
-        - "Why redirects cannot be trusted as payment confirmation"
-        - "Listening for paid, failed, pending, expired, and refunded events"
-        - "Updating HighLevel"
-        - "Triggering workflows"
-        - "Using tags and custom fields"
-        - "Payment confirmation email and SMS"
-        - "Failed payment follow-up"
-        - "Preventing duplicate transactions"
-        - "Basic troubleshooting"
-      practical: "Trigger a HighLevel workflow automatically after a successful payment."
-
-    - number: 5
-      title: "Going Live and Selling the Integration"
-      lessons:
-        - "Moving from sandbox to production"
-        - "Live credentials"
-        - "Webhook configuration"
-        - "Testing real payments safely"
-        - "Logs and transaction monitoring"
-        - "Handling refunds"
-        - "Supporting multiple HighLevel locations"
-        - "Agency vs sub-account installation"
-        - "Pricing the integration"
-        - "Monthly subscription vs setup fee"
-        - "Support boundaries"
-        - "Building a simple onboarding process"
-      practical: "Launch the integration for one real HighLevel sub-account."
-
-  final_project:
-    title: "Launch a Working Local Payment Integration"
-    description: >
-      Configure a local payment provider for one HighLevel sub-account, process
-      a payment, confirm it through a webhook, update the CRM, and trigger an automation.
+  - number: 1
+    title: How Payments Work Inside HighLevel
+    objective: Understand where payments live and how a payment moves from checkout to CRM automation.
+    practical: Map a HighLevel payment flow from checkout to confirmed CRM automation.
+    lessons:
+    - id: welcome
+      title: What You Will Build
+      type: concept
+      explanation: This course is not about memorizing payment terms. You will follow the same path a real local payment integration follows, then complete small actions inside your own tools.
+      takeaway: By the end, you should be able to explain the full payment path and complete a working test flow.
+      presenter_notes: 'Set expectations: this is a workshop. Participants should keep HighLevel open in another tab.'
+    - id: find-payments
+      title: Where Payments Live in HighLevel
+      type: action
+      explanation: HighLevel has several surfaces that can start or display payment activity, including products, payment links, invoices, forms, funnels, and transaction records.
+      required_action:
+        type: confirmation
+        title: Open the Payments area in your HighLevel sub-account
+        instructions:
+        - Open your HighLevel sub-account.
+        - Go to Payments.
+        - Find Transactions and one other payment-related area.
+        help: If your menu differs, use HighLevel search or check that you are inside a sub-account.
+      presenter_notes: Give participants two minutes. Ask them to name one payment surface they found.
+    - id: payment-lifecycle
+      title: The Payment Lifecycle
+      type: diagram
+      explanation: A customer-facing success screen is only one part of the journey. A reliable integration waits for the payment provider to confirm the result and then updates HighLevel.
+      diagram:
+        flow:
+        - Customer
+        - Checkout
+        - Payment Provider
+        - Webhook
+        - HighLevel
+        - Workflow
+        caption: The reliable source of truth is the provider event, not the browser redirect.
+      takeaway: Treat provider confirmation as the trusted payment event.
+      presenter_notes: Walk left to right, then ask what happens if the customer closes the browser after paying.
+    - id: statuses
+      title: Payment Statuses You Must Understand
+      type: concept
+      explanation: Most integrations need to handle more than paid or failed. Pending, expired, refunded, and duplicate events can all affect what HighLevel should do next.
+      takeaway: A good integration models payment state, not just a yes/no result.
+      presenter_notes: ''
+    - id: test-live
+      title: Test Mode vs Live Mode
+      type: quiz
+      explanation: Payment providers normally give you a safe environment for learning and integration testing before real money is involved.
+      quiz:
+        type: multiple_choice
+        title: Where should you build and test first?
+        options:
+        - Live mode with a small amount
+        - Sandbox or test mode
+        - A customer production account
+        - A spreadsheet
+        correct_index: 1
+        correct_feedback: Correct. Build the flow in sandbox first, then move to live credentials.
+        incorrect_feedback: Use the provider sandbox or test mode first so mistakes do not affect real money.
+      presenter_notes: ''
+    - id: map-flow
+      title: Explain the Flow in Your Own Words
+      type: action
+      explanation: If you can explain the flow simply, you are ready to connect the pieces.
+      required_action:
+        type: text_input
+        title: Write the five main steps of a reliable payment flow
+        prompt: Your payment flow
+        placeholder: 'Example: Checkout → Provider → ...'
+        help: Include HighLevel, the payment provider, and the confirmation event.
+      presenter_notes: Ask one participant to read their flow aloud before continuing.
+  - number: 2
+    title: Understanding Local Payment Providers
+    objective: Understand credentials, payment channels, sandbox environments, fees, and webhooks.
+    practical: Prepare a sandbox provider account and complete a test transaction.
+    lessons:
+    - id: provider-role
+      title: What the Payment Provider Does
+      type: concept
+      explanation: The provider handles the actual payment method, authorization, transaction state, settlement, and provider-side events. HighLevel remains the CRM and automation layer.
+      takeaway: 'Keep responsibilities clear: provider handles money; HighLevel handles CRM and automation.'
+      presenter_notes: ''
+    - id: api-keys
+      title: API Keys Without the Jargon
+      type: concept
+      explanation: An API key is a credential your integration uses to identify itself to a service. Secret keys belong on the server and should never be pasted into public frontend code.
+      takeaway: Treat secret API keys like passwords.
+      presenter_notes: ''
+    - id: key-safety
+      title: Public vs Secret Credentials
+      type: quiz
+      explanation: Knowing where credentials belong prevents one of the most common integration mistakes.
+      quiz:
+        type: multiple_choice
+        title: Where should a secret payment API key live?
+        options:
+        - Inside public browser JavaScript
+        - In a server-side environment variable
+        - Inside a screenshot
+        - In a public GitHub README
+        correct_index: 1
+        correct_feedback: Correct. Secret keys should stay server-side, normally in environment variables.
+        incorrect_feedback: Do not expose a secret API key in browser code or a public repository.
+      presenter_notes: ''
+    - id: channels
+      title: Payment Methods and Channels
+      type: walkthrough
+      explanation: A provider may expose cards, bank transfer, e-wallets, QR, over-the-counter methods, or other local channels. Your integration should use the channels the merchant actually needs.
+      steps:
+      - Open your provider documentation or dashboard.
+      - Find the available payment methods.
+      - Identify which methods are enabled in sandbox.
+      - Note whether checkout is redirect-based or embedded.
+      takeaway: Start with a small set of channels you can test well.
+      presenter_notes: ''
+    - id: sandbox-ready
+      title: Prepare Your Sandbox
+      type: action
+      explanation: Before wiring HighLevel to the provider, make sure the provider side can accept a test payment.
+      required_action:
+        type: checklist
+        title: Complete your sandbox setup
+        items:
+        - Create or open a sandbox/test account
+        - Locate the test API credentials
+        - Confirm at least one payment method is available
+        - Locate the provider webhook settings
+        help: If your provider has no sandbox, use its documented test mode or test credentials.
+      presenter_notes: ''
+    - id: provider-test
+      title: Run a Provider Test Transaction
+      type: action
+      explanation: Prove the provider works by itself before adding HighLevel. This isolates problems and makes later troubleshooting much easier.
+      required_action:
+        type: confirmation
+        title: Complete one successful sandbox payment
+        instructions:
+        - Create a test payment using the provider dashboard or sample checkout.
+        - Finish the payment with the provider test method.
+        - Confirm the transaction appears in the provider dashboard.
+        help: If it fails here, fix the provider setup before connecting HighLevel.
+      presenter_notes: Do not move on until participants can see a provider-side test transaction.
+  - number: 3
+    title: Connecting Local Payments to HighLevel
+    objective: Connect HighLevel, middleware, and the provider into one working test checkout.
+    practical: Generate a working local-provider test checkout from a HighLevel-connected flow.
+    lessons:
+    - id: integration-architecture
+      title: The Integration Architecture
+      type: diagram
+      explanation: HighLevel does not need to know every provider-specific detail. A middleware application translates HighLevel data into provider requests and provider events back into HighLevel actions.
+      diagram:
+        flow:
+        - HighLevel
+        - Integration App
+        - Local Provider
+        caption: The integration app is the translator between systems.
+      takeaway: 'Keep this simple: HighLevel data in, provider request out; provider event in, HighLevel update out.'
+      presenter_notes: ''
+    - id: data-mapping
+      title: Map the Important Data
+      type: concept
+      explanation: A payment request usually needs a customer reference, amount, currency, description or product context, and a way to match the provider transaction back to the HighLevel contact or order.
+      takeaway: Always include a stable reference you can use later when the webhook arrives.
+      presenter_notes: ''
+    - id: hl-identifiers
+      title: Find Your HighLevel Identifiers
+      type: action
+      explanation: Before an integration can act on a sub-account, it needs to know which HighLevel location and contact it is working with.
+      required_action:
+        type: checklist
+        title: Locate the identifiers you will use
+        items:
+        - Find your HighLevel Location ID
+        - Open a test contact
+        - Confirm the contact has a usable phone or email
+        - Keep the test contact open for later
+        help: The exact location of IDs can vary. Use the API response or integration settings if the UI does not expose it directly.
+      presenter_notes: ''
+    - id: payment-session
+      title: Create a Payment Session
+      type: walkthrough
+      explanation: The integration receives the amount and customer context, calls the provider, and gets back a checkout URL or session identifier.
+      steps:
+      - Receive the HighLevel customer and order context.
+      - Create the provider payment/session request.
+      - Store the provider transaction reference.
+      - Return the checkout URL to the customer.
+      takeaway: Never lose the mapping between HighLevel and the provider transaction.
+      presenter_notes: ''
+    - id: working-checkout
+      title: Run the Connected Test Checkout
+      type: action
+      explanation: Now test the complete forward path from HighLevel context into the local provider checkout.
+      required_action:
+        type: confirmation
+        title: Complete a connected test checkout
+        instructions:
+        - Start the payment from your integration flow.
+        - Verify the amount and customer details.
+        - Complete the payment using test credentials.
+        - Confirm the provider created the transaction.
+        help: If the checkout is wrong, inspect the data mapping before debugging webhooks.
+      presenter_notes: This is the first major workshop checkpoint. Give extra time here.
+  - number: 4
+    title: Webhooks, Automations, and Payment Status
+    objective: Confirm provider events reliably and turn them into useful HighLevel automation.
+    practical: Successful provider payment → webhook → HighLevel update → workflow action.
+    lessons:
+    - id: redirect-v-webhook
+      title: Redirect vs Webhook
+      type: diagram
+      explanation: The browser redirect is useful for user experience, but the provider webhook is what your server should trust for the actual payment result.
+      diagram:
+        flow:
+        - Customer Browser
+        - Provider Checkout
+        - Success Page
+        caption: A success page can disappear. The webhook is server-to-server.
+      takeaway: 'Ask: what if the customer pays, then loses internet before returning?'
+      presenter_notes: ''
+    - id: webhook-events
+      title: Events You Should Handle
+      type: concept
+      explanation: At minimum, decide what your integration does for paid, pending, failed, expired, and refunded states. The exact event names depend on the provider.
+      takeaway: Translate provider-specific events into a small, consistent payment status model.
+      presenter_notes: ''
+    - id: workflow-mapping
+      title: Turn Payment Events Into CRM Actions
+      type: walkthrough
+      explanation: Once the integration trusts the provider event, it can update HighLevel and trigger the right customer journey.
+      steps:
+      - Match the event to the stored provider transaction.
+      - Find the related HighLevel contact or order.
+      - Update a tag, field, or payment record as appropriate.
+      - Trigger the workflow or next action.
+      takeaway: Payment confirmation should cause one predictable CRM state change.
+      presenter_notes: ''
+    - id: duplicates
+      title: Duplicate Webhooks and Retries
+      type: troubleshooting
+      explanation: Providers may retry a webhook if your server responds slowly or fails. Your integration must be safe when the same event arrives more than once.
+      troubleshooting:
+      - Store a provider event or transaction identifier.
+      - Check whether that event was already processed.
+      - Return a successful response for already-handled events.
+      - Do not send duplicate receipts or trigger the same workflow twice.
+      takeaway: Webhook retries are normal. Duplicate side effects are not.
+      presenter_notes: ''
+    - id: automation-test
+      title: Complete the Payment Automation
+      type: action
+      explanation: Prove the full loop works inside HighLevel, not only inside the provider dashboard.
+      required_action:
+        type: checklist
+        title: Verify the success automation
+        items:
+        - Complete a sandbox payment
+        - Confirm the webhook reaches your integration
+        - Confirm HighLevel is updated
+        - Confirm the expected workflow/tag/action happens
+        - Repeat or replay once and confirm no duplicate side effect
+        help: Check provider webhook logs first, then integration logs, then HighLevel state.
+      presenter_notes: This is the most important technical checkpoint in Course 1.
+  - number: 5
+    title: Going Live and Selling the Integration
+    objective: Move safely from sandbox to production and package the integration as a repeatable service.
+    practical: Launch the integration for one real HighLevel sub-account.
+    lessons:
+    - id: go-live-checklist
+      title: What Changes in Production
+      type: concept
+      explanation: Going live usually means switching credentials, endpoints or modes, registering production webhooks, checking real payment methods, and turning on monitoring.
+      takeaway: Production is a controlled configuration change, not a rewrite.
+      presenter_notes: ''
+    - id: production-ready
+      title: Prepare Production Credentials
+      type: action
+      explanation: Do the production setup without exposing or mixing credentials.
+      required_action:
+        type: checklist
+        title: Complete the production readiness checklist
+        items:
+        - Create or locate live provider credentials
+        - Store secrets in server-side environment variables
+        - Register the live webhook URL
+        - Verify currency and enabled payment methods
+        - Confirm the HighLevel location is the correct production location
+        help: Do not paste live secret keys into frontend code, screenshots, or public repositories.
+      presenter_notes: ''
+    - id: live-payment
+      title: Run a Small Real Payment
+      type: action
+      explanation: A production integration is not proven until one real transaction completes end-to-end.
+      required_action:
+        type: confirmation
+        title: Complete one controlled live transaction
+        instructions:
+        - Use a small real amount.
+        - Complete the payment using an enabled production method.
+        - Confirm it appears in the provider dashboard.
+        - Confirm HighLevel receives the expected update and automation.
+        help: If the payment succeeds but HighLevel does not update, check webhook delivery before changing checkout code.
+      presenter_notes: Tell participants to use an amount they are comfortable testing and can reconcile.
+    - id: operations
+      title: Logs, Refunds, and Monitoring
+      type: concept
+      explanation: 'After launch, support work usually starts with three places: provider transaction logs, webhook/integration logs, and HighLevel state. Refund handling should also have a defined CRM result.'
+      takeaway: Design support around observable events, not guesses.
+      presenter_notes: ''
+    - id: offer
+      title: Define Your Integration Offer
+      type: action
+      explanation: A useful service needs a clear install scope, monthly responsibility, and support boundary.
+      required_action:
+        type: text_input
+        title: Write your simple offer
+        prompt: What will you install and support?
+        placeholder: 'Example: Setup + monthly monitoring for one HighLevel sub-account…'
+        help: 'Keep it specific: provider, number of locations, setup, monitoring, support.'
+      presenter_notes: ''
+    - id: final-project
+      title: 'Final Challenge: Prove the Whole Integration'
+      type: action
+      explanation: Use this checklist as your Course 1 finish line.
+      required_action:
+        type: checklist
+        title: Complete the end-to-end integration
+        items:
+        - HighLevel location connected
+        - Local provider configured
+        - Test or live checkout works
+        - Webhook confirms payment
+        - HighLevel state updates
+        - Automation triggers correctly
+        - Duplicate events do not duplicate customer actions
+        - You can explain the flow in your own words
+        help: If one item fails, go back to the module that owns that part of the flow.
+      presenter_notes: Use this as the final live review. Let participants say which item they still need to finish.

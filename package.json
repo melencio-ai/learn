@@ -1,6 +1,6 @@
 {
   "name": "learn",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,10 +12,11 @@
     "node": ">=20.19"
   },
   "dependencies": {
-    "serve": "^14.2.4",
-    "yaml": "^2.8.1"
+    "serve": "14.2.4",
+    "yaml": "2.8.1"
   },
   "devDependencies": {
-    "vite": "^7.1.7"
-  }
+    "vite": "7.3.6"
+  },
+  "packageManager": "npm@10.8.2"
 }

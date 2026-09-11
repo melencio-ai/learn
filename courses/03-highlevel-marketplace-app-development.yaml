@@ -1,250 +1,122 @@
 course:
   id: highlevel-marketplace-app-development
-  title: "HighLevel - Marketplace App Development"
-  level: "Beginner to Advanced"
-  format: "Continuous learning path"
+  slug: marketplace-app-development
+  catalog_number: '03'
+  title: HighLevel - Marketplace App Development
+  level: Beginner to Advanced
+  format: Continuous learning path
   audience:
-    description: >
-      Slightly technical HighLevel and automation users who want to progress from
-      non-coder concepts into building and publishing real Marketplace apps.
+    description: Slightly technical HighLevel and automation users progressing from non-coder concepts into real Marketplace app development.
     prerequisites:
-      - "Basic familiarity with HighLevel"
-      - "Comfort using automation tools"
-      - "No prior coding experience required"
-  outcome: >
-    Students progress from understanding APIs and HighLevel integrations to
-    designing, building, deploying, securing, monetizing, and publishing
-    production-ready HighLevel Marketplace apps.
-
+      - Basic familiarity with HighLevel
+      - Comfort using automation tools
+      - No prior coding experience required
+  outcome: Progress from API user to integration builder, backend developer, OAuth app developer, and production Marketplace/SaaS developer through continuous hands-on build milestones.
   modules:
     - number: 1
-      title: "What Is a HighLevel Marketplace App?"
-      lessons:
-        - "Marketplace ecosystem"
-        - "Agency vs location apps"
-        - "Public vs private integrations"
-        - "Common app categories"
-        - "API vs webhook vs embedded UI"
-        - "Anatomy of a Marketplace app"
-      build: "Draw the architecture of your first app."
-
+      title: What Is a HighLevel Marketplace App?
+      objective: Understand the ecosystem, app types, and the basic moving parts of a Marketplace app.
+      build: Draw the architecture of your first app.
+      auto_lessons: true
+      topics: [Marketplace ecosystem, Agency vs location installations, Public vs private integrations, API vs webhook vs embedded UI]
     - number: 2
-      title: "APIs for Non-Coders"
-      lessons:
-        - "What an API is"
-        - "Requests and responses"
-        - "GET, POST, PUT, and DELETE"
-        - "JSON"
-        - "Headers"
-        - "Authentication"
-        - "Status codes"
-        - "Reading API documentation"
-        - "Using Postman, Bruno, or Insomnia"
-      build: "Make your first HighLevel API request."
-
+      title: APIs for Non-Coders
+      objective: Learn the minimum API vocabulary needed to use developer tools confidently.
+      build: Make your first HighLevel API request.
+      auto_lessons: true
+      topics: [Requests and responses, GET POST PUT DELETE, JSON headers and authentication, Status codes and API documentation]
     - number: 3
-      title: "HighLevel API Fundamentals"
-      lessons:
-        - "API documentation"
-        - "Location IDs"
-        - "Contacts"
-        - "Opportunities"
-        - "Conversations"
-        - "Calendars"
-        - "Users"
-        - "Custom fields"
-        - "Tags"
-        - "Workflows"
-      build: "Retrieve contacts from a HighLevel account."
-
+      title: HighLevel API Fundamentals
+      objective: Use the HighLevel API model and common resources.
+      build: Retrieve contacts from a HighLevel account.
+      auto_lessons: true
+      topics: [Location IDs, Contacts and custom fields, Opportunities and pipelines, Conversations calendars users and tags]
     - number: 4
-      title: "Private Integrations"
-      lessons:
-        - "Private Integration Tokens"
-        - "Permissions and scopes"
-        - "Creating tokens"
-        - "Protecting credentials"
-        - "Testing authenticated API calls"
-      build: "Create a small internal HighLevel integration."
-
+      title: Private Integrations
+      objective: Use a Private Integration Token for controlled internal development.
+      build: Create a small internal HighLevel integration.
+      auto_lessons: true
+      topics: [Private Integration Tokens, Scopes and permissions, Credential storage, Authenticated test calls]
     - number: 5
-      title: "Webhooks"
-      lessons:
-        - "What webhooks solve"
-        - "Events vs polling"
-        - "Receiving webhooks"
-        - "Contact events"
-        - "Opportunity events"
-        - "Appointment events"
-        - "Payment events"
-        - "Webhook security"
-      build: "Receive a HighLevel webhook and display its data."
-
+      title: Webhooks
+      objective: React to HighLevel events instead of repeatedly polling for changes.
+      build: Receive a HighLevel webhook and display its data.
+      auto_lessons: true
+      topics: [Events vs polling, Webhook receiver, Contact opportunity and appointment events, Webhook security]
     - number: 6
-      title: "Your First Backend"
-      lessons:
-        - "What a backend does"
-        - "Python basics needed for integrations"
-        - "Variables"
-        - "Functions"
-        - "Dictionaries"
-        - "HTTP requests"
-        - "Environment variables"
-        - "Introduction to Django"
-      build: "Create a simple Django integration server."
-
+      title: Your First Backend
+      objective: Understand the backend layer that stores secrets and talks to APIs.
+      build: Create a simple Django integration server.
+      auto_lessons: true
+      topics: [Python essentials, HTTP requests, Environment variables, Django project basics]
     - number: 7
-      title: "Databases for Marketplace Apps"
-      lessons:
-        - "Why apps need a database"
-        - "PostgreSQL"
-        - "Tables"
-        - "IDs"
-        - "Relationships"
-        - "Users"
-        - "Organizations"
-        - "HighLevel locations"
-        - "Credentials"
-        - "Logs"
-      build: "Store connected HighLevel locations."
-
+      title: Databases for Marketplace Apps
+      objective: Persist tenants, locations, credentials, configuration, and logs.
+      build: Store connected HighLevel locations.
+      auto_lessons: true
+      topics: [PostgreSQL basics, Tables IDs and relationships, Organizations and locations, Credentials and logs]
     - number: 8
-      title: "OAuth 2.0"
-      lessons:
-        - "OAuth explained simply"
-        - "Authorization URL"
-        - "Redirect URI"
-        - "Authorization code"
-        - "Access token"
-        - "Refresh token"
-        - "Scopes"
-        - "Token expiration"
-      build: "Connect a HighLevel account using OAuth."
-
+      title: OAuth 2.0
+      objective: Build the authorization flow required for installable Marketplace apps.
+      build: Connect a HighLevel account using OAuth.
+      auto_lessons: true
+      topics: [Authorization URL, Redirect URI and authorization code, Access and refresh tokens, Scopes and expiration]
     - number: 9
-      title: "Building the Installation Flow"
-      lessons:
-        - "Install button"
-        - "HighLevel authorization"
-        - "Callback URL"
-        - "Creating the organization"
-        - "Saving tokens"
-        - "Detecting the installed location"
-        - "Installation success screen"
-      build: "Complete an end-to-end app installation."
-
+      title: Building the Installation Flow
+      objective: Turn OAuth into a clean end-to-end installation experience.
+      build: Complete an end-to-end app installation.
+      auto_lessons: true
+      topics: [Install button, Callback handling, Organization and location creation, Token storage and success screen]
     - number: 10
-      title: "Working With HighLevel Contacts"
-      lessons:
-        - "Read contacts"
-        - "Create contacts"
-        - "Update contacts"
-        - "Search contacts"
-        - "Custom fields"
-        - "Tags"
-        - "Avoiding duplicates"
-      build: "Create a contact sync tool."
-
+      title: Working With HighLevel Contacts
+      objective: Read, create, update, and safely match contacts.
+      build: Create a contact sync tool.
+      auto_lessons: true
+      topics: [Contact CRUD, Search, Custom fields and tags, Duplicate prevention]
     - number: 11
-      title: "Conversations and Messaging"
-      lessons:
-        - "HighLevel Conversations API"
-        - "SMS"
-        - "Email"
-        - "Conversation threads"
-        - "Message direction"
-        - "Message providers"
-        - "External messaging services"
-      build: "Create an external messaging integration."
-
+      title: Conversations and Messaging
+      objective: Work with conversation threads and external message providers.
+      build: Create an external messaging integration.
+      auto_lessons: true
+      topics: [Conversations API, SMS and email messages, Direction and threads, External messaging services]
     - number: 12
-      title: "Opportunities and Pipelines"
-      lessons:
-        - "Pipelines"
-        - "Stages"
-        - "Opportunities"
-        - "Assignment"
-        - "Opportunity status"
-        - "Automating stage movement"
-      build: "Automatically create and update opportunities."
-
+      title: Opportunities and Pipelines
+      objective: Use pipeline data to automate sales state.
+      build: Automatically create and update opportunities.
+      auto_lessons: true
+      topics: [Pipelines and stages, Opportunity create and update, Assignment, Status and stage automation]
     - number: 13
-      title: "Calendars and Appointments"
-      lessons:
-        - "Calendars"
-        - "Availability"
-        - "Appointment creation"
-        - "Rescheduling"
-        - "Cancellation"
-        - "Appointment webhooks"
-      build: "Create an external booking integration."
-
+      title: Calendars and Appointments
+      objective: Read availability and manage appointments with events.
+      build: Create an external booking integration.
+      auto_lessons: true
+      topics: [Calendars, Availability, Create reschedule and cancel, Appointment webhooks]
     - number: 14
-      title: "Building a HighLevel Embedded App"
-      lessons:
-        - "Custom menu links"
-        - "Embedded apps"
-        - "Location context"
-        - "Passing location information"
-        - "App navigation"
-        - "Building a SaaS-style dashboard"
-        - "Responsive layouts"
-      build: "Add your own application interface inside HighLevel."
-
+      title: Building a HighLevel Embedded App
+      objective: Create a responsive app surface that feels native inside a HighLevel workflow.
+      build: Add your own application interface inside HighLevel.
+      auto_lessons: true
+      topics: [Custom menu links, Location context, Embedded navigation, Responsive SaaS dashboard]
     - number: 15
-      title: "Deploying Your Marketplace App"
-      lessons:
-        - "Development vs production"
-        - "GitHub"
-        - "Environment variables"
-        - "Docker basics"
-        - "Railway"
-        - "PostgreSQL"
-        - "Domains"
-        - "HTTPS"
-        - "Logs"
-        - "Migrations"
-        - "Backups"
-      build: "Deploy the app publicly."
-
+      title: Deploying Your Marketplace App
+      objective: Move from local development to a production deployment you can test with real installs.
+      build: Deploy the app publicly.
+      auto_lessons: true
+      topics: [GitHub and environment variables, Docker basics, Railway and PostgreSQL, Domains HTTPS logs migrations and backups]
   advanced_module_roadmap:
-    - number: 16
-      title: "Multi-Tenant SaaS Architecture"
-    - number: 17
-      title: "SaaS V2 and Rebilling"
-    - number: 18
-      title: "Marketplace App Billing"
-    - number: 19
-      title: "Advanced OAuth and Token Management"
-    - number: 20
-      title: "API Rate Limits and Queues"
-    - number: 21
-      title: "Advanced Webhooks"
-    - number: 22
-      title: "Building Payment Provider Apps"
-    - number: 23
-      title: "Building SMS Provider Apps"
-    - number: 24
-      title: "Building AI Apps for HighLevel"
-    - number: 25
-      title: "MCP Servers for HighLevel"
-    - number: 26
-      title: "CLI Tools for HighLevel"
-    - number: 27
-      title: "White-Label Marketplace Apps"
-    - number: 28
-      title: "Security and Credential Encryption"
-    - number: 29
-      title: "Testing and CI/CD"
-    - number: 30
-      title: "Publishing to the HighLevel Marketplace"
-    - number: 31
-      title: "Real Marketplace App Builds"
-      continuous: true
-      examples:
-        - "Local payment provider integration"
-        - "Android SMS gateway"
-        - "Lead enrichment app"
-        - "Booking integration"
-        - "AI agent integration"
-        - "Reporting dashboard"
+    - {number: 16, title: Multi-Tenant SaaS Architecture}
+    - {number: 17, title: SaaS V2 and Rebilling}
+    - {number: 18, title: Marketplace App Billing}
+    - {number: 19, title: Advanced OAuth and Token Management}
+    - {number: 20, title: API Rate Limits and Queues}
+    - {number: 21, title: Advanced Webhooks}
+    - {number: 22, title: Building Payment Provider Apps}
+    - {number: 23, title: Building SMS Provider Apps}
+    - {number: 24, title: Building AI Apps for HighLevel}
+    - {number: 25, title: MCP Servers for HighLevel}
+    - {number: 26, title: CLI Tools for HighLevel}
+    - {number: 27, title: White-Label Marketplace Apps}
+    - {number: 28, title: Security and Credential Encryption}
+    - {number: 29, title: Testing and CI/CD}
+    - {number: 30, title: Publishing to the HighLevel Marketplace}
+    - {number: 31, title: Real Marketplace App Builds, continuous: true}

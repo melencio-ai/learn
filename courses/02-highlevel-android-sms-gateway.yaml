@@ -1,96 +1,287 @@
 course:
   id: highlevel-android-sms-gateway
-  title: "HighLevel - Android SMS Gateway"
-  level: "Beginner to Intermediate"
+  slug: android-sms
+  catalog_number: '02'
+  title: HighLevel - Android SMS Gateway
+  level: Beginner to Intermediate
+  format: Live interactive workshop
   audience:
-    description: "Slightly technical non-coders familiar with automation tools and HighLevel."
+    description: Slightly technical non-coders familiar with automation tools and HighLevel.
     prerequisites:
-      - "Basic familiarity with HighLevel"
-      - "Comfort using automation tools"
-      - "Access to an Android phone and SIM card"
-  outcome: >
-    Students can turn an Android phone and SIM into an SMS gateway connected to
-    HighLevel for sending and receiving SMS.
+    - Basic familiarity with HighLevel
+    - Comfort using automation tools
+    - Access to an Android phone and SIM card
+  outcome: Turn an Android phone and SIM into a two-way SMS gateway connected to HighLevel, then prepare it for reliable day-to-day use.
   modules:
-    - number: 1
-      title: "Understanding the Android SMS Gateway"
-      lessons:
-        - "Why use Android and SIM for HighLevel"
-        - "Traditional SMS providers vs SIM-based SMS"
-        - "HighLevel to gateway server to Android phone to mobile network"
-        - "Incoming SMS to Android phone to gateway to HighLevel"
-        - "Required hardware"
-        - "Android permissions"
-        - "SIM considerations"
-        - "Dual-SIM phones"
-        - "Wi-Fi and mobile data"
-        - "Carrier limitations"
-        - "Compliance considerations"
-      practical: "Prepare an Android device and SIM for gateway use."
-
-    - number: 2
-      title: "Setting Up the Android Gateway"
-      lessons:
-        - "Installing the gateway app"
-        - "Registering the device"
-        - "Granting SMS permissions"
-        - "Connecting the phone to the server"
-        - "Device IDs and API credentials"
-        - "Sending the first SMS through an API"
-        - "Delivery states"
-        - "Troubleshooting offline devices"
-        - "SIM and network problems"
-        - "Android battery optimization"
-      practical: "Send an SMS from the gateway dashboard to your own number."
-
-    - number: 3
-      title: "Connecting the Gateway to HighLevel"
-      lessons:
-        - "HighLevel Conversations overview"
-        - "HighLevel API basics"
-        - "Private Integration Tokens"
-        - "Location IDs"
-        - "Contact IDs"
-        - "Conversation IDs"
-        - "Connecting a HighLevel location"
-        - "Sending HighLevel messages through the Android phone"
-        - "Associating SMS messages with contacts"
-      practical: "Send an SMS from a HighLevel contact using the Android SIM."
-
-    - number: 4
-      title: "Receiving SMS and Automation"
-      lessons:
-        - "Detecting incoming SMS on Android"
-        - "Sending incoming messages to the server"
-        - "Matching phone numbers with HighLevel contacts"
-        - "Creating and updating conversations"
-        - "Showing incoming messages inside HighLevel"
-        - "Triggering workflows"
-        - "Auto-replies"
-        - "Opt-out handling"
-        - "STOP and START keywords"
-        - "Message queues and retry logic explained simply"
-      practical: "Reply from a second phone and show the incoming message in HighLevel."
-
-    - number: 5
-      title: "Production Deployment and Multi-Device Setup"
-      lessons:
-        - "Keeping the gateway online 24/7"
-        - "Android battery and background services"
-        - "Dedicated gateway phones"
-        - "Multiple SIM and device architecture"
-        - "Assigning devices to HighLevel locations"
-        - "Usage limits"
-        - "Device health monitoring"
-        - "SMS logs"
-        - "Failed message retries"
-        - "Basic security"
-        - "White-label opportunities"
-        - "Charging agencies or businesses"
-      practical: "Deploy a production-ready gateway configuration."
-
-  final_project:
-    title: "Build a Two-Way HighLevel SMS Gateway"
-    description: >
-      Configure an Android phone and local SIM to send and receive SMS through
-      HighLevel, including contact matching, conversations, and workflow automation.
+  - number: 1
+    title: Understanding the Android SMS Gateway
+    objective: Understand the architecture, device requirements, carrier limits, and compliance basics.
+    practical: Prepare an Android device and SIM for gateway use.
+    lessons:
+    - id: outbound-flow
+      title: How an Outbound SMS Moves
+      type: diagram
+      explanation: HighLevel creates the message, your gateway sends it to the registered Android device, and the phone uses its SIM to send through the mobile network.
+      diagram:
+        flow:
+        - HighLevel
+        - Gateway Server
+        - Android Phone
+        - SIM
+        - Mobile Network
+        - Customer
+        caption: The Android phone becomes the physical SMS sender.
+      takeaway: ''
+      presenter_notes: ''
+    - id: inbound-flow
+      title: How an Incoming Reply Returns
+      type: diagram
+      explanation: Incoming replies travel the opposite way. The phone receives the SMS, the gateway reports it to the server, and the integration writes it into the right HighLevel conversation.
+      diagram:
+        flow:
+        - Customer
+        - Mobile Network
+        - SIM
+        - Android Phone
+        - Gateway Server
+        - HighLevel
+        caption: Two-way messaging requires both outbound and inbound paths.
+      takeaway: ''
+      presenter_notes: ''
+    - id: hardware
+      title: What You Need
+      type: concept
+      explanation: A stable Android device, a working SIM with SMS capability, reliable power, and internet access are the core requirements. Dedicated devices are easier to keep reliable than personal daily-use phones.
+      takeaway: Treat the Android device like infrastructure, not just a spare phone.
+      presenter_notes: ''
+    - id: carrier-limit
+      title: Carrier Limitations
+      type: quiz
+      explanation: A technically correct gateway cannot overcome a SIM plan or carrier that blocks outbound SMS.
+      quiz:
+        type: multiple_choice
+        title: If incoming SMS works but every outbound SMS fails even in the phone app, what should you check first?
+        options:
+        - HighLevel workflow colors
+        - The SIM plan and carrier SMS capability
+        - The phone wallpaper
+        - The contact custom field
+        correct_index: 1
+        correct_feedback: Correct. Prove the SIM can send SMS normally before debugging the gateway.
+        incorrect_feedback: Test the SIM and carrier capability outside the integration first.
+      presenter_notes: ''
+    - id: device-prep
+      title: Prepare the Device
+      type: action
+      explanation: Get the phone ready before installing the gateway.
+      required_action:
+        type: checklist
+        title: Complete device preparation
+        items:
+        - Insert a SIM that can send and receive SMS
+        - Send one normal SMS from the phone app
+        - Receive one reply
+        - Connect the phone to stable internet
+        - Connect reliable power or charging
+        help: If normal outbound SMS fails, solve the SIM/carrier issue before continuing.
+      presenter_notes: ''
+  - number: 2
+    title: Setting Up the Android Gateway
+    objective: Install, register, and prove the Android gateway can send a message.
+    practical: Send an SMS from the gateway dashboard through your Android SIM.
+    lessons:
+    - id: install-app
+      title: Install and Grant Permissions
+      type: action
+      explanation: The gateway app needs Android permissions to send and read SMS and may need background access depending on the implementation.
+      required_action:
+        type: checklist
+        title: Install the gateway app and grant required permissions
+        items:
+        - Install the gateway app
+        - Grant SMS permissions
+        - Allow required background/network access
+        - Confirm the app opens without permission warnings
+      presenter_notes: ''
+    - id: register-device
+      title: Device Registration
+      type: concept
+      explanation: A registered device gives the server a stable identity for routing messages. The device ID or API credential should uniquely identify the phone or installation.
+      takeaway: The server must always know which physical device should send a message.
+      presenter_notes: ''
+    - id: first-send
+      title: Send Your First Gateway SMS
+      type: action
+      explanation: Before HighLevel is involved, prove that the server can reach the Android device and the phone can send through the SIM.
+      required_action:
+        type: confirmation
+        title: Send one SMS from the gateway dashboard
+        instructions:
+        - Choose the registered device.
+        - Enter your own test number.
+        - Send a short message.
+        - Confirm it arrives on the receiving phone.
+        help: If it stays queued, check device online status, Android background restrictions, network access, and SIM capability.
+      presenter_notes: ''
+    - id: offline
+      title: When the Device Looks Offline
+      type: troubleshooting
+      explanation: Android can stop or delay background work to save battery. Network changes and app permissions can also break the connection.
+      troubleshooting:
+      - Disable aggressive battery optimization for the gateway app.
+      - Confirm the phone still has internet access.
+      - Reopen the app and verify device registration.
+      - Check server/device logs for the last heartbeat or connection.
+      takeaway: Gateway reliability depends as much on Android power management as on the API.
+      presenter_notes: ''
+  - number: 3
+    title: Connecting the Gateway to HighLevel
+    objective: Connect a HighLevel location and route outbound conversation messages through the Android SIM.
+    practical: Send an SMS from a HighLevel contact using the Android phone.
+    lessons:
+    - id: hl-api
+      title: The HighLevel Side
+      type: concept
+      explanation: The gateway integration needs permission to identify the location, contacts, and conversations it is working with. Private Integration Tokens are useful for controlled internal setups; Marketplace apps normally use OAuth.
+      takeaway: Start with the smallest permissions needed for the messaging flow.
+      presenter_notes: ''
+    - id: connect-location
+      title: Connect a Test HighLevel Location
+      type: action
+      explanation: Use one known sub-account first so you can trace every message.
+      required_action:
+        type: checklist
+        title: Prepare the HighLevel test location
+        items:
+        - Choose one HighLevel sub-account
+        - Prepare the required API/PIT credentials
+        - Open a test contact with a valid mobile number
+        - Confirm the location is mapped to the correct Android device
+      presenter_notes: ''
+    - id: message-routing
+      title: Route a HighLevel Message
+      type: walkthrough
+      explanation: The integration receives the HighLevel message intent, resolves the assigned device, sends the SMS through the gateway, and records the result.
+      steps:
+      - Identify the HighLevel location and contact.
+      - Choose the assigned Android device.
+      - Send the SMS through the gateway API.
+      - Capture the gateway/provider message ID and status.
+      - Reflect the result in the HighLevel conversation or logs.
+      takeaway: Always keep enough IDs to trace a message across both systems.
+      presenter_notes: ''
+    - id: send-from-hl
+      title: Send From HighLevel
+      type: action
+      explanation: This is the first full outbound test.
+      required_action:
+        type: confirmation
+        title: Send one SMS from a HighLevel contact through the Android SIM
+        instructions:
+        - Open the test contact in HighLevel.
+        - Send the message using the connected integration flow.
+        - Confirm the Android gateway processes it.
+        - Confirm the recipient receives the SMS.
+        help: 'Trace in order: HighLevel request → server log → device log → phone/SIM send result.'
+      presenter_notes: ''
+  - number: 4
+    title: Receiving SMS and Automation
+    objective: Return incoming replies to the correct HighLevel conversation and handle messaging rules.
+    practical: Reply from another phone and see the inbound message appear in HighLevel.
+    lessons:
+    - id: reply-path
+      title: The Reply Path
+      type: diagram
+      explanation: The inbound flow must preserve the sender number and know which HighLevel location/device relationship owns the conversation.
+      diagram:
+        flow:
+        - Customer Reply
+        - Android SMS Inbox
+        - Gateway
+        - Contact Match
+        - HighLevel Conversation
+        caption: Incoming phone number matching connects the reply to the CRM contact.
+      takeaway: ''
+      presenter_notes: ''
+    - id: contact-match
+      title: Matching Replies to Contacts
+      type: concept
+      explanation: Normalize phone numbers before matching them. When a contact is missing, decide whether to create one, reject it, or route it for review.
+      takeaway: Phone-number normalization is essential for dependable conversation matching.
+      presenter_notes: ''
+    - id: receive-test
+      title: Receive a Reply in HighLevel
+      type: action
+      explanation: Prove the reverse path works end to end.
+      required_action:
+        type: confirmation
+        title: Complete an inbound reply test
+        instructions:
+        - Reply from the recipient phone.
+        - Confirm the Android device receives the SMS.
+        - Confirm the gateway reports the inbound message.
+        - Confirm it appears on the correct HighLevel contact/conversation.
+        help: If the gateway sees the SMS but HighLevel does not, inspect phone-number normalization and location mapping.
+      presenter_notes: ''
+    - id: optout
+      title: STOP and Opt-Out
+      type: quiz
+      explanation: A gateway still needs responsible messaging behavior even when it uses a local SIM.
+      quiz:
+        type: multiple_choice
+        title: What should happen when a recipient sends STOP?
+        options:
+        - Ignore it
+        - Keep sending automated campaigns
+        - Record the opt-out and prevent future non-permitted sends
+        - Delete the contact
+        correct_index: 2
+        correct_feedback: Correct. Opt-out state should be recorded and respected.
+        incorrect_feedback: STOP should not be treated like an ordinary conversational reply.
+      presenter_notes: ''
+  - number: 5
+    title: Production Deployment and Multi-Device Setup
+    objective: Make the gateway reliable, observable, secure, and repeatable across locations.
+    practical: Deploy a production-ready two-way SMS setup.
+    lessons:
+    - id: reliability
+      title: Keep the Phone Online
+      type: concept
+      explanation: Dedicated power, stable internet, battery settings, automatic reconnection, and health checks matter more in production than fancy UI.
+      takeaway: A phone-based gateway is only useful when you can tell whether the device is healthy.
+      presenter_notes: ''
+    - id: multi-device
+      title: Multiple Devices and Locations
+      type: concept
+      explanation: A scalable setup needs an explicit mapping between HighLevel locations and registered devices/SIMs, with clear fallback behavior when a device is offline.
+      takeaway: 'Routing rules should be deterministic: know exactly which device owns each send.'
+      presenter_notes: ''
+    - id: ops
+      title: Production Troubleshooting
+      type: troubleshooting
+      explanation: Most incidents can be narrowed down by checking whether the failure is in HighLevel, the gateway server, the Android device, or the carrier/SIM.
+      troubleshooting:
+      - Check whether HighLevel produced the send request.
+      - Check server queue and delivery status.
+      - Check device heartbeat and Android logs.
+      - Test normal SMS directly on the phone.
+      - Check carrier limits or balance.
+      takeaway: Troubleshoot layer by layer instead of changing everything at once.
+      presenter_notes: ''
+    - id: sms-final
+      title: 'Final Challenge: Two-Way SMS'
+      type: action
+      explanation: Use this as the Course 2 finish line.
+      required_action:
+        type: checklist
+        title: Complete the production-ready setup
+        items:
+        - Android device registered and online
+        - SIM sends normal SMS
+        - HighLevel location connected
+        - Outbound HighLevel SMS reaches a recipient
+        - Inbound reply appears in the correct conversation
+        - Opt-out behavior is defined
+        - You know where to check device and message health
+        help: Any failed item tells you which module to revisit.
+      presenter_notes: ''
