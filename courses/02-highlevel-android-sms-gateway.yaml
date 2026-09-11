@@ -1,0 +1,96 @@
+course:
+  id: highlevel-android-sms-gateway
+  title: "HighLevel - Android SMS Gateway"
+  level: "Beginner to Intermediate"
+  audience:
+    description: "Slightly technical non-coders familiar with automation tools and HighLevel."
+    prerequisites:
+      - "Basic familiarity with HighLevel"
+      - "Comfort using automation tools"
+      - "Access to an Android phone and SIM card"
+  outcome: >
+    Students can turn an Android phone and SIM into an SMS gateway connected to
+    HighLevel for sending and receiving SMS.
+  modules:
+    - number: 1
+      title: "Understanding the Android SMS Gateway"
+      lessons:
+        - "Why use Android and SIM for HighLevel"
+        - "Traditional SMS providers vs SIM-based SMS"
+        - "HighLevel to gateway server to Android phone to mobile network"
+        - "Incoming SMS to Android phone to gateway to HighLevel"
+        - "Required hardware"
+        - "Android permissions"
+        - "SIM considerations"
+        - "Dual-SIM phones"
+        - "Wi-Fi and mobile data"
+        - "Carrier limitations"
+        - "Compliance considerations"
+      practical: "Prepare an Android device and SIM for gateway use."
+
+    - number: 2
+      title: "Setting Up the Android Gateway"
+      lessons:
+        - "Installing the gateway app"
+        - "Registering the device"
+        - "Granting SMS permissions"
+        - "Connecting the phone to the server"
+        - "Device IDs and API credentials"
+        - "Sending the first SMS through an API"
+        - "Delivery states"
+        - "Troubleshooting offline devices"
+        - "SIM and network problems"
+        - "Android battery optimization"
+      practical: "Send an SMS from the gateway dashboard to your own number."
+
+    - number: 3
+      title: "Connecting the Gateway to HighLevel"
+      lessons:
+        - "HighLevel Conversations overview"
+        - "HighLevel API basics"
+        - "Private Integration Tokens"
+        - "Location IDs"
+        - "Contact IDs"
+        - "Conversation IDs"
+        - "Connecting a HighLevel location"
+        - "Sending HighLevel messages through the Android phone"
+        - "Associating SMS messages with contacts"
+      practical: "Send an SMS from a HighLevel contact using the Android SIM."
+
+    - number: 4
+      title: "Receiving SMS and Automation"
+      lessons:
+        - "Detecting incoming SMS on Android"
+        - "Sending incoming messages to the server"
+        - "Matching phone numbers with HighLevel contacts"
+        - "Creating and updating conversations"
+        - "Showing incoming messages inside HighLevel"
+        - "Triggering workflows"
+        - "Auto-replies"
+        - "Opt-out handling"
+        - "STOP and START keywords"
+        - "Message queues and retry logic explained simply"
+      practical: "Reply from a second phone and show the incoming message in HighLevel."
+
+    - number: 5
+      title: "Production Deployment and Multi-Device Setup"
+      lessons:
+        - "Keeping the gateway online 24/7"
+        - "Android battery and background services"
+        - "Dedicated gateway phones"
+        - "Multiple SIM and device architecture"
+        - "Assigning devices to HighLevel locations"
+        - "Usage limits"
+        - "Device health monitoring"
+        - "SMS logs"
+        - "Failed message retries"
+        - "Basic security"
+        - "White-label opportunities"
+        - "Charging agencies or businesses"
+      practical: "Deploy a production-ready gateway configuration."
+
+  final_project:
+    title: "Build a Two-Way HighLevel SMS Gateway"
+    description: >
+      Configure an Android phone and local SIM to send and receive SMS through
+      HighLevel, including contact matching, conversations, and workflow automation.
