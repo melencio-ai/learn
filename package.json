@@ -1,0 +1,21 @@
+{
+  "name": "learn",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "start": "serve -s dist -l $PORT"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "serve": "^14.2.4",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
+}
