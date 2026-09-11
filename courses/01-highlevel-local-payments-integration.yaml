@@ -1,0 +1,91 @@
+course:
+  id: highlevel-local-payments-integration
+  title: "HighLevel - Local Payments Integration"
+  level: "Beginner to Intermediate"
+  audience:
+    description: "Slightly technical non-coders familiar with automation tools and HighLevel."
+    prerequisites:
+      - "Basic familiarity with HighLevel"
+      - "Comfort using automation tools"
+      - "Basic understanding of online payments"
+  outcome: >
+    Students can connect a local payment provider to HighLevel, collect payments,
+    receive payment events, and automate the customer journey without needing to
+    become full-stack developers.
+  modules:
+    - number: 1
+      title: "How Payments Work Inside HighLevel"
+      lessons:
+        - "Where payments appear in HighLevel"
+        - "Products, offers, order forms, invoices, payment links, and funnels"
+        - "Native vs external payment providers"
+        - "Payment lifecycle: checkout, authorization, confirmation, webhook, CRM automation"
+        - "Test mode vs live mode"
+        - "Transaction IDs and payment statuses"
+        - "What a local payments integration needs to do"
+      practical: "Map a simple HighLevel payment flow from checkout to CRM automation."
+
+    - number: 2
+      title: "Understanding Local Payment Providers"
+      lessons:
+        - "Examples: Xendit, PayMongo, Maya, GCash-supported flows, and regional providers"
+        - "API keys explained for non-coders"
+        - "Public keys vs secret keys"
+        - "Payment methods and channels"
+        - "Redirect checkout vs embedded checkout"
+        - "Fees and settlement"
+        - "Webhooks explained simply"
+        - "Sandbox and test environments"
+        - "Security basics"
+      practical: "Create a provider sandbox account and make a successful test transaction."
+
+    - number: 3
+      title: "Connecting Local Payments to HighLevel"
+      lessons:
+        - "Integration architecture"
+        - "HighLevel to integration to payment provider flow"
+        - "Using middleware instead of modifying HighLevel"
+        - "Connecting a HighLevel sub-account"
+        - "OAuth and Marketplace installation concepts"
+        - "Mapping customer, order, product, amount, and currency"
+        - "Creating a payment session"
+        - "Sending the customer to checkout"
+        - "Returning the customer to HighLevel"
+      practical: "Connect a sample local provider and generate a working test checkout."
+
+    - number: 4
+      title: "Webhooks, Automations, and Payment Status"
+      lessons:
+        - "Why redirects cannot be trusted as payment confirmation"
+        - "Listening for paid, failed, pending, expired, and refunded events"
+        - "Updating HighLevel"
+        - "Triggering workflows"
+        - "Using tags and custom fields"
+        - "Payment confirmation email and SMS"
+        - "Failed payment follow-up"
+        - "Preventing duplicate transactions"
+        - "Basic troubleshooting"
+      practical: "Trigger a HighLevel workflow automatically after a successful payment."
+
+    - number: 5
+      title: "Going Live and Selling the Integration"
+      lessons:
+        - "Moving from sandbox to production"
+        - "Live credentials"
+        - "Webhook configuration"
+        - "Testing real payments safely"
+        - "Logs and transaction monitoring"
+        - "Handling refunds"
+        - "Supporting multiple HighLevel locations"
+        - "Agency vs sub-account installation"
+        - "Pricing the integration"
+        - "Monthly subscription vs setup fee"
+        - "Support boundaries"
+        - "Building a simple onboarding process"
+      practical: "Launch the integration for one real HighLevel sub-account."
+
+  final_project:
+    title: "Launch a Working Local Payment Integration"
+    description: >
+      Configure a local payment provider for one HighLevel sub-account, process
+      a payment, confirm it through a webhook, update the CRM, and trigger an automation.
