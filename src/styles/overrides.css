@@ -4,8 +4,15 @@
   max-width: max-content;
 }
 
+.repeat-activity-button {
+  margin-top: 14px;
+  width: auto;
+  max-width: max-content;
+}
+
 @media (max-width: 640px) {
-  .lesson-footer > .button:first-child {
+  .lesson-footer > .button:first-child,
+  .repeat-activity-button {
     min-width: 0;
   }
 }
