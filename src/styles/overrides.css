@@ -1,0 +1,11 @@
+.lesson-footer > .button:first-child {
+  justify-self: start;
+  width: auto;
+  max-width: max-content;
+}
+
+@media (max-width: 640px) {
+  .lesson-footer > .button:first-child {
+    min-width: 0;
+  }
+}
