@@ -18,91 +18,693 @@ course:
       objective: Understand the ecosystem, app types, and the basic moving parts of a Marketplace app.
       build: Draw the architecture of your first app.
       auto_lessons: true
-      topics: [Marketplace ecosystem, Agency vs location installations, Public vs private integrations, API vs webhook vs embedded UI]
+      intro: >
+        A Marketplace app is not code that lives inside HighLevel. It is usually your own application that HighLevel users authorize or install. Your app can call HighLevel APIs, receive events through webhooks, and optionally add app modules or UI that users access from HighLevel.
+      concepts:
+        - Developer account — where you create and manage Marketplace apps.
+        - Private app — useful while building, testing, or serving an internal use case.
+        - Public app — intended for broader installation after it is ready for review and distribution.
+        - API — lets your app ask HighLevel to read or change data.
+        - Webhook — lets HighLevel tell your app that something happened.
+        - App UI or module — gives the user a surface to interact with your product.
+      walkthrough_steps:
+        - Start with the user problem your app solves.
+        - Decide whether the app needs to read data, write data, react to events, show its own UI, or some combination of these.
+        - Identify where your own backend sits between the user and HighLevel.
+        - Identify what data belongs to HighLevel and what data your application must store itself.
+        - Mark where authentication and permissions are required.
+      diagram:
+        flow: [HighLevel User, HighLevel, Your App, Your Database or Service]
+        caption: Your app is a separate system connected to HighLevel through authorized APIs, events, and optional UI modules.
+      build_steps:
+        - Pick one real app idea you want to build during this course.
+        - Write the user problem in one sentence.
+        - Draw HighLevel, Your App, and Your Database or External Service as separate boxes.
+        - Add arrows for API calls and webhooks.
+        - Label what data crosses each arrow.
+      success_criteria:
+        - Your diagram clearly separates HighLevel from your own application.
+        - At least one API call or webhook is shown.
+        - You can explain why your app needs a backend, database, or external service if one is included.
+      troubleshooting:
+        - If everything is drawn inside HighLevel, separate your own application from the platform.
+        - If every arrow points only one way, ask whether HighLevel also needs to notify your app about events.
+        - If you cannot explain an arrow, remove it until you know what data it carries.
+      quiz:
+        question: Which statement best describes a HighLevel Marketplace app?
+        options:
+          - A separate application that connects to HighLevel through authorized APIs, events, and optional app modules.
+          - A CSS theme that replaces the HighLevel application.
+          - A spreadsheet that HighLevel reads automatically.
+          - A browser extension that never needs authentication.
+        correct_index: 0
+        correct_feedback: Correct. Think of the Marketplace app as your own product connected securely to HighLevel.
+        incorrect_feedback: Focus on the separation between HighLevel and the external application you are building.
+
     - number: 2
       title: APIs for Non-Coders
       objective: Learn the minimum API vocabulary needed to use developer tools confidently.
       build: Make your first HighLevel API request.
       auto_lessons: true
-      topics: [Requests and responses, GET POST PUT DELETE, JSON headers and authentication, Status codes and API documentation]
+      intro: >
+        An API request is a structured message sent from one system to another. You do not need to become a computer-science expert. You need to recognize the URL, method, headers, body, authentication, and response so you can read documentation and troubleshoot a request.
+      concepts:
+        - Endpoint — the API address for a specific resource or action.
+        - Method — GET reads, POST usually creates or searches, PUT or PATCH updates, and DELETE removes.
+        - Headers — metadata such as authorization, API version, and content type.
+        - JSON body — structured data sent with many POST or update requests.
+        - Status code — the quick signal showing whether the request succeeded or failed.
+        - Response body — the data or error returned by the API.
+      walkthrough_steps:
+        - Open an API client such as Postman, Bruno, or Insomnia.
+        - Choose a simple HighLevel endpoint from the official documentation.
+        - Identify the HTTP method before copying anything.
+        - Add the required Authorization header and API version shown in the documentation.
+        - Send the request and inspect both the status code and response JSON.
+      build_steps:
+        - Open the official HighLevel API documentation and choose one read-only endpoint available to your authorization method.
+        - Create the request in your API client.
+        - Add the required headers exactly as documented.
+        - Send the request and get a successful response.
+        - Save the request in a collection named for your course app.
+      success_criteria:
+        - The request returns a successful HTTP response instead of an authentication error.
+        - You can point to the method, URL, headers, and response in your API client.
+        - You can explain what the returned JSON represents.
+      troubleshooting:
+        - 401 usually means the token or authorization header is missing or invalid.
+        - 403 often means the token does not have the required scope or access.
+        - 400 or 422 usually means the request data is missing something or does not match the API contract.
+      quiz:
+        question: What should you inspect first when an API request fails?
+        options:
+          - The status code and response body.
+          - The color of your browser theme.
+          - The name of the HighLevel sub-account.
+          - Whether your database is PostgreSQL.
+        correct_index: 0
+        correct_feedback: Correct. The status code and response usually tell you where to begin.
+        incorrect_feedback: Start with the information the API itself returned.
+
     - number: 3
       title: HighLevel API Fundamentals
       objective: Use the HighLevel API model and common resources.
       build: Retrieve contacts from a HighLevel account.
       auto_lessons: true
-      topics: [Location IDs, Contacts and custom fields, Opportunities and pipelines, Conversations calendars users and tags]
+      intro: >
+        HighLevel exposes resources such as contacts, conversations, opportunities, calendars, users, payments, and more. Most work is scoped to a company or location, so learning to track IDs and understand which resource owns the data is more important than memorizing endpoints.
+      concepts:
+        - Location ID — identifies the sub-account whose data you are working with.
+        - Contact ID — identifies one contact record and is commonly reused across messaging, tasks, and automations.
+        - Resource — a business object such as a contact, opportunity, conversation, or calendar.
+        - Scope — permission your token must have before an endpoint can be used.
+        - Pagination — the pattern APIs use to return large lists in smaller pages.
+        - Relationship — one resource often points to another by ID rather than repeating the full record.
+      walkthrough_steps:
+        - Pick a known HighLevel sub-account and record its Location ID.
+        - Identify which authorization method you are using and what scopes it has.
+        - Open the Contacts section of the official API docs.
+        - Find a read or search operation and note its required inputs.
+        - Send the request and inspect contact IDs, names, email or phone, and location context in the response.
+      build_steps:
+        - Use a valid token for one test HighLevel location.
+        - Make a Contacts API request that returns contact data for that location.
+        - Copy one returned Contact ID into your notes.
+        - Open that same contact in HighLevel and confirm you are looking at the same person.
+        - Save the working API request because later modules will reuse the Location ID and Contact ID.
+      success_criteria:
+        - You can retrieve real contact data from the intended test location.
+        - You can identify the Location ID and at least one Contact ID in your working flow.
+        - You understand that IDs are how your app safely connects related API resources.
+      troubleshooting:
+        - If you get the wrong records, verify the location context before changing the endpoint.
+        - If the response is empty, confirm the location actually has contacts and review filters or pagination.
+        - If access is denied, compare the endpoint requirements with the scopes granted to your token.
+      quiz:
+        question: Why is the Location ID important in a multi-location HighLevel app?
+        options:
+          - It helps your app know which sub-account the data belongs to.
+          - It replaces OAuth access tokens.
+          - It is the same as every Contact ID.
+          - It tells Railway which project to deploy.
+        correct_index: 0
+        correct_feedback: Correct. Location context is a core boundary when working with sub-account data.
+        incorrect_feedback: Think about how your application knows which HighLevel sub-account owns the data.
+
     - number: 4
       title: Private Integrations
       objective: Use a Private Integration Token for controlled internal development.
       build: Create a small internal HighLevel integration.
       auto_lessons: true
-      topics: [Private Integration Tokens, Scopes and permissions, Credential storage, Authenticated test calls]
+      intro: >
+        A Private Integration Token is a practical way to learn the API and build controlled internal tools for a specific sub-account. It is simpler than OAuth because there is no public installation flow, but that simplicity also makes it the wrong choice for many installable Marketplace products.
+      concepts:
+        - Private Integration Token — a credential created for controlled API access.
+        - Internal use case — a tool used by you or a specific connected sub-account rather than a public install flow.
+        - Scope — the exact API permissions granted to the token.
+        - Least privilege — give a token only the permissions the tool actually needs.
+        - Secret handling — never expose the token in frontend JavaScript or a public repository.
+      walkthrough_steps:
+        - Decide on one simple internal task such as reading contacts or updating a custom field.
+        - Create a Private Integration Token with only the scopes required for that task.
+        - Store the token outside your frontend code.
+        - Use it from an API client or backend request.
+        - Remove one required scope temporarily and observe how permissions affect the request, then restore it.
+      build_steps:
+        - Create a Private Integration Token for your test location.
+        - Give it only the scopes needed for one simple integration task.
+        - Store the token in an environment variable or private API client environment.
+        - Make one authenticated HighLevel API call successfully.
+        - Record which scope made that request possible.
+      success_criteria:
+        - Your token is not committed to GitHub or embedded in browser code.
+        - The token can perform the intended task and does not have unnecessary permissions.
+        - You can explain when you would move from a Private Integration Token to OAuth.
+      troubleshooting:
+        - If the token works in Postman but not your app, inspect how your backend loads environment variables.
+        - If one endpoint fails while others work, check the endpoint-specific scope.
+        - If you need a public install flow, webhooks, or Marketplace modules, start planning OAuth instead of stretching the private-token approach.
+      quiz:
+        question: When is a Private Integration Token a good starting point?
+        options:
+          - A controlled internal integration for a specific sub-account.
+          - A public app that thousands of customers install themselves.
+          - A frontend page that exposes the token to every visitor.
+          - An app that needs no HighLevel API access.
+        correct_index: 0
+        correct_feedback: Correct. Private integrations are useful for controlled internal API access and learning.
+        incorrect_feedback: Think about the simplest authorization option for a controlled internal use case.
+
     - number: 5
       title: Webhooks
       objective: React to HighLevel events instead of repeatedly polling for changes.
       build: Receive a HighLevel webhook and display its data.
       auto_lessons: true
-      topics: [Events vs polling, Webhook receiver, Contact opportunity and appointment events, Webhook security]
+      intro: >
+        An API request asks HighLevel for information. A webhook reverses the direction: HighLevel sends your application an event when something changes. This lets your app react quickly without constantly asking whether anything new happened.
+      concepts:
+        - Webhook endpoint — a public HTTPS URL on your backend that receives events.
+        - Event type — tells your app what happened.
+        - Payload — the JSON data HighLevel sends with the event.
+        - Idempotency — processing a repeated event without creating the same side effect twice.
+        - Acknowledgement — your endpoint should respond quickly so the sender knows the event was received.
+        - Event log — saved evidence that makes webhook problems debuggable.
+      walkthrough_steps:
+        - Create a simple POST endpoint on your backend.
+        - Log the incoming headers and JSON body safely.
+        - Configure a HighLevel webhook event for your test app where supported.
+        - Trigger the matching action inside HighLevel.
+        - Compare what happened in HighLevel with the payload your endpoint received.
+      build_steps:
+        - Expose one HTTPS webhook endpoint.
+        - Subscribe to one useful HighLevel event.
+        - Trigger that event from your test location.
+        - Store or display the received event type, location context, and primary resource ID.
+        - Trigger it again and confirm your handler can recognize repeated processing safely.
+      success_criteria:
+        - A real HighLevel event reaches your backend.
+        - You can identify the event type and the HighLevel record involved.
+        - Your webhook endpoint returns successfully and leaves a useful log entry.
+      troubleshooting:
+        - If nothing arrives, confirm the webhook URL is public HTTPS and the event subscription is enabled.
+        - If the payload arrives more than once, treat retries as normal and make side effects idempotent.
+        - If debugging is difficult, log event IDs, types, timestamps, and location IDs before adding business logic.
+      quiz:
+        question: What is the main difference between an API request and a webhook?
+        options:
+          - Your app calls an API; HighLevel sends a webhook event to your app.
+          - Webhooks can only be used for CSS.
+          - APIs never require authentication.
+          - They are exactly the same thing.
+        correct_index: 0
+        correct_feedback: Correct. The direction of communication is the key idea.
+        incorrect_feedback: Ask who starts the communication in each case.
+
     - number: 6
       title: Your First Backend
       objective: Understand the backend layer that stores secrets and talks to APIs.
       build: Create a simple Django integration server.
       auto_lessons: true
-      topics: [Python essentials, HTTP requests, Environment variables, Django project basics]
+      intro: >
+        The backend is the trusted part of your application. It can safely hold credentials, receive webhooks, call HighLevel APIs, validate data, talk to your database, and make decisions that should never be left to browser JavaScript.
+      concepts:
+        - Server — code that receives HTTP requests and returns responses.
+        - Route or view — code responsible for a specific URL or action.
+        - Environment variable — configuration or secrets supplied outside source code.
+        - Request validation — checking incoming data before trusting it.
+        - Service layer — reusable code that handles communication with HighLevel or another provider.
+        - Logging — recording enough context to diagnose failures without exposing secrets.
+      walkthrough_steps:
+        - Create a minimal Django project and application.
+        - Add a health endpoint that returns a simple successful response.
+        - Add an environment variable and read it from Django settings without committing the value.
+        - Create one server-side function that calls a HighLevel API using your existing test credential.
+        - Return a safe subset of the result from a Django endpoint.
+      build_steps:
+        - Create a Django project for your Marketplace app.
+        - Add a health endpoint such as /health/.
+        - Load your HighLevel credential from an environment variable.
+        - Add one backend endpoint that performs a server-side HighLevel API request.
+        - Confirm the secret never appears in the HTML, JavaScript bundle, or Git repository.
+      success_criteria:
+        - Your Django server starts without errors.
+        - The health endpoint returns a successful response.
+        - The backend can call HighLevel while the browser never receives the secret credential.
+      troubleshooting:
+        - If Django cannot read the credential, inspect the environment name and restart the process after changing it.
+        - If the browser needs your secret to make the request work, move that request behind your backend.
+        - If errors are vague, log the endpoint, status code, and safe request context without logging tokens.
+      quiz:
+        question: Why should HighLevel client secrets and private tokens live on the backend?
+        options:
+          - Browser code can be inspected by users, while the backend can protect secrets.
+          - Django automatically makes every API request free.
+          - Frontend JavaScript cannot send HTTP requests.
+          - HighLevel only works with PostgreSQL.
+        correct_index: 0
+        correct_feedback: Correct. The browser is not a safe place for secrets.
+        incorrect_feedback: Think about what a user can inspect in downloaded frontend code.
+
     - number: 7
       title: Databases for Marketplace Apps
       objective: Persist tenants, locations, credentials, configuration, and logs.
       build: Store connected HighLevel locations.
       auto_lessons: true
-      topics: [PostgreSQL basics, Tables IDs and relationships, Organizations and locations, Credentials and logs]
+      intro: >
+        Once more than one location can connect, your app needs reliable memory. A database lets you separate organizations, locations, credentials, configuration, usage, and event history instead of hiding important state in environment variables or browser storage.
+      concepts:
+        - Organization — your app-level customer or workspace boundary.
+        - Location connection — record linking your workspace to a HighLevel Location ID.
+        - Credential record — encrypted or protected authorization data associated with a connection.
+        - Foreign key — a database relationship connecting one record to another.
+        - Unique constraint — prevents duplicate records that should exist only once.
+        - Audit or event log — history useful for debugging and support.
+      walkthrough_steps:
+        - Draw Organization, HighLevelLocation, and Credential as separate records.
+        - Decide which record owns the HighLevel Location ID.
+        - Decide which fields must be unique.
+        - Add created and updated timestamps.
+        - Add one log model that can record an integration event without storing sensitive payloads blindly.
+      build_steps:
+        - Add PostgreSQL to the project.
+        - Create an Organization or Workspace model.
+        - Create a HighLevelLocation model linked to the organization and containing the external Location ID.
+        - Create the database migration and apply it.
+        - Insert one test location and retrieve it from Django.
+      success_criteria:
+        - Your project uses a persistent database rather than hard-coded connection data.
+        - A HighLevel location belongs to the correct app organization or workspace.
+        - Duplicate or cross-tenant records are constrained by your data model.
+      troubleshooting:
+        - If data disappears after redeploying, verify you are using persistent PostgreSQL and not an ephemeral local file.
+        - If two customers can see each other's data, fix tenant scoping before adding more features.
+        - If credentials are stored as plain text, treat encryption and secure secret handling as a required production task.
+      quiz:
+        question: What is the main job of tenant scoping in a Marketplace SaaS app?
+        options:
+          - Keep each customer's connected data separated from other customers.
+          - Make CSS load faster.
+          - Replace API authentication.
+          - Avoid database migrations.
+        correct_index: 0
+        correct_feedback: Correct. Tenant boundaries are a core safety requirement.
+        incorrect_feedback: Think about what prevents one customer from seeing another customer's records.
+
     - number: 8
       title: OAuth 2.0
       objective: Build the authorization flow required for installable Marketplace apps.
       build: Connect a HighLevel account using OAuth.
       auto_lessons: true
-      topics: [Authorization URL, Redirect URI and authorization code, Access and refresh tokens, Scopes and expiration]
+      intro: >
+        OAuth lets a HighLevel user authorize your application without giving you their HighLevel password. Your app receives a short-lived authorization code, exchanges it securely for tokens, stores those tokens on the backend, and refreshes access when required.
+      concepts:
+        - Client ID — identifies your Marketplace application.
+        - Client secret — proves your backend is the application during secure token exchange.
+        - Redirect URL — your backend callback that receives the authorization result.
+        - Authorization code — temporary code returned after the user approves access.
+        - Access token — credential used for authorized API calls.
+        - Refresh token — used to obtain renewed access when the access token expires.
+        - Scope — limits what the user is authorizing your app to do.
+      walkthrough_steps:
+        - Send the user to the HighLevel authorization flow with the app identity, redirect URL, and requested scopes.
+        - The user reviews and approves access.
+        - HighLevel redirects back to your registered callback with an authorization code.
+        - Your backend exchanges the code for access and refresh tokens.
+        - Your backend stores the connection and uses the access token for API calls.
+        - When access expires, your backend refreshes the token instead of asking the user to reinstall immediately.
+      diagram:
+        flow: [User clicks Install, HighLevel authorization, Callback with code, Backend token exchange, Store connection, Authorized API calls]
+        caption: The client secret and token exchange belong on your backend, not in the browser.
+      build_steps:
+        - Configure the OAuth scopes your test app actually needs.
+        - Register the correct callback or redirect URL.
+        - Generate and securely store your client credentials.
+        - Implement the callback that receives the authorization code.
+        - Exchange the code for tokens and save the resulting connection.
+        - Use the stored access token to make one successful HighLevel API call.
+      success_criteria:
+        - A HighLevel user can authorize your test app without sharing their password.
+        - Your backend receives and stores the connection tokens securely.
+        - An API request succeeds using the OAuth access token.
+      troubleshooting:
+        - Redirect mismatch errors usually mean the callback URL does not exactly match what is registered.
+        - Invalid scope errors mean the authorization request and configured app permissions do not line up.
+        - If authorization succeeds but later API calls fail, inspect token storage, expiry, refresh behavior, and location context.
+      quiz:
+        question: Where should the client secret and authorization-code exchange happen?
+        options:
+          - On your backend server.
+          - Inside public frontend JavaScript.
+          - In a CSS file.
+          - In the participant's browser localStorage.
+        correct_index: 0
+        correct_feedback: Correct. OAuth secrets and token exchange belong in the trusted backend.
+        incorrect_feedback: Choose the place where users cannot inspect or steal the client secret.
+
     - number: 9
       title: Building the Installation Flow
       objective: Turn OAuth into a clean end-to-end installation experience.
       build: Complete an end-to-end app installation.
       auto_lessons: true
-      topics: [Install button, Callback handling, Organization and location creation, Token storage and success screen]
+      intro: >
+        OAuth is only one part of installation. A production app also needs to know who installed it, which company or location is connected, whether a connection already exists, what happens after authorization, and what the user should see when setup succeeds or fails.
+      concepts:
+        - Install entry point — where the user starts connecting your app.
+        - Callback handling — converts authorization into a persistent app connection.
+        - Install context — company, location, user, or install type associated with the connection.
+        - Upsert connection — update an existing connection instead of creating duplicates on reinstall.
+        - Success state — clear confirmation plus the next setup step.
+        - Uninstall or disconnect — a connection lifecycle also needs a safe ending.
+      walkthrough_steps:
+        - User starts installation from the Marketplace or your app entry point.
+        - HighLevel handles authorization and returns the user to your callback.
+        - Backend validates the callback and stores the authorized connection.
+        - App associates the connection with the correct organization and location.
+        - App sends the user to a setup or success page.
+        - Reinstalling the same connection updates the existing record instead of duplicating it.
+      diagram:
+        flow: [Install, Authorize, Callback, Save connection, Identify location, Setup screen]
+        caption: Installation is a state machine, not just one OAuth request.
+      build_steps:
+        - Add a Connect HighLevel button or installation entry point.
+        - Complete OAuth and persist the resulting connection.
+        - Save the correct HighLevel company or location context.
+        - Show a clear installation-success screen with the connected location.
+        - Run the installation a second time and confirm you do not create an accidental duplicate connection.
+      success_criteria:
+        - A fresh user can complete the install flow without manually editing database records.
+        - The correct HighLevel location is stored and visible after installation.
+        - Reinstall behavior is predictable and duplicate-safe.
+      troubleshooting:
+        - If the wrong location is connected, inspect the install context before saving the record.
+        - If every reinstall creates a new row, use a stable HighLevel identifier to upsert the connection.
+        - If users finish OAuth and land on a blank page, treat post-install UX as part of the feature, not an afterthought.
+      quiz:
+        question: Why should installation be treated as more than just an OAuth callback?
+        options:
+          - The app must also persist the correct connection, handle repeat installs, and guide the user to a usable state.
+          - OAuth automatically builds the entire user interface.
+          - Installation never needs database records.
+          - The callback should always expose the access token to the browser.
+        correct_index: 0
+        correct_feedback: Correct. A good install flow manages both authorization and application state.
+        incorrect_feedback: Think about everything that must happen after the authorization code arrives.
+
     - number: 10
       title: Working With HighLevel Contacts
       objective: Read, create, update, and safely match contacts.
       build: Create a contact sync tool.
       auto_lessons: true
-      topics: [Contact CRUD, Search, Custom fields and tags, Duplicate prevention]
+      intro: >
+        Contacts are central to many HighLevel apps, but synchronization is more than calling Create Contact. Your app must preserve the correct location context, map fields deliberately, handle missing values, understand duplicate behavior, and decide whether to create, update, or upsert.
+      concepts:
+        - Contact ID — stable identifier for an existing HighLevel contact.
+        - Search — find candidate records before deciding what action to take.
+        - Create — make a new contact when no suitable record exists.
+        - Update — modify a known contact by its ID.
+        - Upsert — create or update according to matching behavior.
+        - Field mapping — translate data from your system into the correct HighLevel fields.
+      walkthrough_steps:
+        - Start with one external customer record containing name, email, and phone.
+        - Search or match inside the intended HighLevel location.
+        - Decide whether an existing contact should be reused.
+        - Map only the fields your integration owns or is allowed to update.
+        - Save the resulting HighLevel Contact ID back to your own record for future updates.
+      build_steps:
+        - Read one contact from HighLevel through the API.
+        - Create or upsert a test contact from your own application.
+        - Save the returned Contact ID in your database.
+        - Change one field in your source data and update the same HighLevel record.
+        - Run the sync again and confirm you did not create an unintended duplicate.
+      success_criteria:
+        - The same real-world person does not become a new contact on every sync.
+        - Your application stores the HighLevel Contact ID once a match is established.
+        - Updates affect only the intended location and fields.
+      troubleshooting:
+        - If duplicates appear, review the location's duplicate-contact configuration and your own matching strategy.
+        - If custom fields do not update, verify field IDs and expected value formats.
+        - If a sync changes fields it should not own, tighten your field mapping instead of sending the entire source object.
+      quiz:
+        question: What is a strong pattern after your app creates or confidently matches a HighLevel contact?
+        options:
+          - Store the HighLevel Contact ID so later updates target the same record.
+          - Forget the Contact ID and create a new contact every time.
+          - Use the contact's display name as the only unique key forever.
+          - Copy the access token into the contact notes.
+        correct_index: 0
+        correct_feedback: Correct. Saving the external ID makes future synchronization much safer.
+        incorrect_feedback: Think about how your app can reliably target the same record next time.
+
     - number: 11
       title: Conversations and Messaging
       objective: Work with conversation threads and external message providers.
       build: Create an external messaging integration.
       auto_lessons: true
-      topics: [Conversations API, SMS and email messages, Direction and threads, External messaging services]
+      intro: >
+        Messaging integrations must connect people, messages, channels, and conversation history. The hard part is not sending one SMS. It is preserving the correct contact and conversation context, direction, provider status, retries, and inbound replies so HighLevel remains useful to the user.
+      concepts:
+        - Conversation — the thread or context in which messages are grouped.
+        - Message direction — outbound from the business or inbound from the customer.
+        - Channel or provider — SMS, email, or an external transport used to carry the message.
+        - Delivery state — queued, sent, delivered, failed, or another provider-specific outcome.
+        - Correlation ID — lets your app match HighLevel activity with the provider's message record.
+        - Inbound matching — connects a reply to the correct contact and conversation.
+      walkthrough_steps:
+        - Start with a known HighLevel contact and phone number.
+        - Create an outbound message request from your integration.
+        - Send the message through your external provider or gateway.
+        - Save both your internal message ID and the provider's message ID.
+        - Receive or simulate a reply and associate it back to the same HighLevel contact and conversation.
+        - Update delivery state when provider events arrive.
+      build_steps:
+        - Choose one test HighLevel contact.
+        - Send one outbound message through your integration path.
+        - Store enough IDs to trace the message across HighLevel, your app, and the provider.
+        - Process one inbound reply and attach it to the correct contact context.
+        - Simulate or capture one failed delivery and confirm it is visible in your logs.
+      success_criteria:
+        - Outbound and inbound messages can be traced to the same customer.
+        - Provider failures are not silently treated as successful sends.
+        - A retry cannot accidentally create unlimited duplicate sends.
+      troubleshooting:
+        - If replies attach to the wrong person, normalize phone numbers and scope matching to the correct location.
+        - If messages duplicate, add idempotency around provider callbacks and retry jobs.
+        - If HighLevel and the provider disagree on status, record both states and define which event is authoritative for each transition.
+      quiz:
+        question: What makes a messaging integration production-ready beyond sending one successful SMS?
+        options:
+          - Correct contact context, inbound handling, delivery states, tracing, and safe retries.
+          - A bigger Send button.
+          - Storing every message only in browser memory.
+          - Ignoring provider failures.
+        correct_index: 0
+        correct_feedback: Correct. Reliable messaging is mostly about state and traceability around the send itself.
+        incorrect_feedback: Think about what happens after the first outbound API call.
+
     - number: 12
       title: Opportunities and Pipelines
       objective: Use pipeline data to automate sales state.
       build: Automatically create and update opportunities.
       auto_lessons: true
-      topics: [Pipelines and stages, Opportunity create and update, Assignment, Status and stage automation]
+      intro: >
+        Opportunities represent sales state, not just contact data. Your app needs to understand which pipeline and stage a deal belongs to, who owns it, what status it has, and which external events are allowed to move it.
+      concepts:
+        - Pipeline — ordered sales process containing stages.
+        - Stage — current position of an opportunity inside a pipeline.
+        - Opportunity — deal record connected to a contact and sales process.
+        - Status — business state such as open, won, lost, or abandoned depending on the available model.
+        - Assignment — user or owner responsible for the opportunity.
+        - External event mapping — rule translating an event in your app into a pipeline change.
+      walkthrough_steps:
+        - Read the available pipeline and stage structure for a test location.
+        - Choose one contact and create a test opportunity in the intended stage.
+        - Store the returned Opportunity ID.
+        - Simulate an external business event such as payment received or booking confirmed.
+        - Update the existing opportunity instead of creating a new one.
+      build_steps:
+        - Retrieve the pipeline or stage information needed by your integration.
+        - Create one opportunity for a test contact.
+        - Save the Opportunity ID in your app.
+        - Trigger one external condition and move the opportunity to the next intended stage.
+        - Repeat the same condition and confirm the integration remains duplicate-safe.
+      success_criteria:
+        - The correct contact has one intended opportunity in the correct pipeline.
+        - Your integration can update the same opportunity by ID.
+        - Stage movement follows a defined business rule rather than random API calls.
+      troubleshooting:
+        - If opportunities appear in the wrong place, verify pipeline and stage IDs for the connected location.
+        - If duplicates appear, search or store the existing Opportunity ID before creating another record.
+        - If automation fights with HighLevel workflows, define which system owns each stage transition.
+      quiz:
+        question: What should normally cause your integration to move an opportunity stage?
+        options:
+          - A defined business event or rule.
+          - Every page refresh.
+          - A random timer with no business meaning.
+          - The color of the pipeline card.
+        correct_index: 0
+        correct_feedback: Correct. Pipeline automation should reflect real business state.
+        incorrect_feedback: Think about what a stage is supposed to represent in the sales process.
+
     - number: 13
       title: Calendars and Appointments
       objective: Read availability and manage appointments with events.
       build: Create an external booking integration.
       auto_lessons: true
-      topics: [Calendars, Availability, Create reschedule and cancel, Appointment webhooks]
+      intro: >
+        Booking integrations have two responsibilities: create the right appointment and keep both systems synchronized when that appointment changes. Availability, time zones, contact identity, calendar selection, reschedules, cancellations, and webhook events all matter.
+      concepts:
+        - Calendar — defines where a booking belongs.
+        - Availability — time slots that can actually be offered.
+        - Appointment — booked event associated with a calendar and customer.
+        - Time zone — required context for interpreting times correctly.
+        - External booking ID — lets two systems refer to the same booking.
+        - Appointment event — notification used to keep external systems synchronized.
+      walkthrough_steps:
+        - Select a known HighLevel calendar and identify its location and time zone.
+        - Read or determine an available test time.
+        - Create a test appointment for a known contact.
+        - Save the HighLevel appointment ID beside your external booking ID.
+        - Reschedule the booking and confirm the same appointment changes.
+        - Cancel it and observe the resulting state or event.
+      build_steps:
+        - Connect one external booking record to one HighLevel calendar.
+        - Create an appointment from your app using a known contact.
+        - Persist both the external booking ID and HighLevel appointment ID.
+        - Reschedule the same appointment from one side.
+        - Process the change so both systems end in the same state.
+      success_criteria:
+        - The appointment appears on the intended HighLevel calendar at the intended local time.
+        - Rescheduling updates the same booking instead of creating a second appointment.
+        - Your app can trace which external record matches the HighLevel appointment.
+      troubleshooting:
+        - If times are wrong by hours, inspect time-zone conversion before changing calendar logic.
+        - If reschedules create duplicates, store and reuse the HighLevel appointment ID.
+        - If both systems keep overwriting each other, define which event wins when simultaneous changes occur.
+      quiz:
+        question: Why should your app store the HighLevel Appointment ID after creating a booking?
+        options:
+          - So later reschedules and cancellations can target the same appointment.
+          - So the user's OAuth token never expires.
+          - So every change creates a brand-new appointment.
+          - So you no longer need a calendar.
+        correct_index: 0
+        correct_feedback: Correct. Stable IDs are what make two-way synchronization manageable.
+        incorrect_feedback: Think about how you target the same booking on the next update.
+
     - number: 14
       title: Building a HighLevel Embedded App
       objective: Create a responsive app surface that feels native inside a HighLevel workflow.
       build: Add your own application interface inside HighLevel.
       auto_lessons: true
-      topics: [Custom menu links, Location context, Embedded navigation, Responsive SaaS dashboard]
+      intro: >
+        An embedded app should feel useful in the place where the HighLevel user already works. The goal is not to squeeze your entire SaaS into an iframe. Show the smallest useful workflow, identify the current location or user context safely, and keep navigation and loading states clear.
+      concepts:
+        - Embedded surface — your app UI opened from within the HighLevel experience.
+        - Location context — tells your application which connected sub-account the user is currently working in.
+        - Signed or trusted context — context should be validated rather than trusted only because it came from browser parameters.
+        - Responsive layout — embedded widths vary, so fixed desktop layouts break quickly.
+        - Partial workflow — embedded UI should focus on the task users need inside HighLevel.
+        - Loading and error states — integration latency must be visible instead of looking frozen.
+      walkthrough_steps:
+        - Choose one workflow from your app that belongs naturally inside HighLevel.
+        - Sketch the minimum screen needed to complete that workflow.
+        - Determine how the current location will map to a saved connection in your backend.
+        - Add loading, empty, success, and error states before polishing the visuals.
+        - Test the page at wide and narrow embedded widths.
+      build_steps:
+        - Create one responsive embedded page for your course app.
+        - Resolve the current HighLevel location to the correct tenant connection on your backend.
+        - Display real connected data instead of hard-coded demo content.
+        - Add a useful action the HighLevel user can complete without leaving the embedded page.
+        - Test the page at desktop and narrow widths and fix overflow.
+      success_criteria:
+        - The page shows data for the correct connected location.
+        - The core action can be completed without leaving the embedded workflow unnecessarily.
+        - Loading, empty, error, and success states are understandable.
+      troubleshooting:
+        - If the wrong customer's data appears, stop and fix server-side tenant and location validation immediately.
+        - If the UI only works at full desktop width, remove fixed dimensions and test realistic embedded sizes.
+        - If users get a blank area while data loads, add a visible loading state and useful error recovery.
+      quiz:
+        question: What should drive the design of an embedded HighLevel app surface?
+        options:
+          - The smallest useful workflow the user needs in that HighLevel context.
+          - Copying every screen from your standalone SaaS into one page.
+          - Fixed 1920-pixel desktop widths.
+          - Trusting any location ID supplied by the browser without validation.
+        correct_index: 0
+        correct_feedback: Correct. Embedded UI should be contextual, focused, and securely scoped.
+        incorrect_feedback: Think about why a user opens your app from inside HighLevel in the first place.
+
     - number: 15
       title: Deploying Your Marketplace App
       objective: Move from local development to a production deployment you can test with real installs.
       build: Deploy the app publicly.
       auto_lessons: true
-      topics: [GitHub and environment variables, Docker basics, Railway and PostgreSQL, Domains HTTPS logs migrations and backups]
+      intro: >
+        Production is where all the earlier pieces meet: source control, environment variables, a public HTTPS backend, persistent PostgreSQL, migrations, logs, health checks, OAuth redirect URLs, webhook URLs, and a repeatable deployment process.
+      concepts:
+        - Production environment — real hosted runtime separated from local development.
+        - Environment variables — production configuration and secrets supplied outside Git.
+        - Persistent database — data survives app restarts and deployments.
+        - Migration — controlled change to the database schema.
+        - Health check — simple signal that the service can start and respond.
+        - Deployment log — evidence used to diagnose build and runtime failures.
+      walkthrough_steps:
+        - Push the working application to GitHub.
+        - Create a Railway project and connect the repository.
+        - Add PostgreSQL and required environment variables.
+        - Run migrations as part of a controlled deploy process.
+        - Expose the service through HTTPS and update OAuth or webhook URLs to the production domain.
+        - Perform a real installation or test flow and inspect logs while doing it.
+      build_steps:
+        - Push the current course app to its GitHub repository.
+        - Deploy the backend to Railway with a persistent PostgreSQL database.
+        - Configure all required production environment variables without committing secrets.
+        - Apply database migrations and confirm the health endpoint is green.
+        - Update HighLevel callback and webhook configuration to the production HTTPS domain.
+        - Complete one end-to-end production test install and API action.
+      success_criteria:
+        - The public HTTPS app starts successfully after a fresh deployment.
+        - Database records remain after the service restarts or redeploys.
+        - OAuth callbacks and webhooks reach the production service.
+        - Logs are sufficient to trace one end-to-end user action without exposing secrets.
+      troubleshooting:
+        - If the build passes but the app crashes, inspect runtime logs and required environment variables separately from build logs.
+        - If OAuth worked locally but fails in production, verify exact production redirect URLs and secrets.
+        - If database tables are missing, verify migrations ran against the production database before blaming application code.
+      quiz:
+        question: What makes a deployment truly usable for a Marketplace integration?
+        options:
+          - The public app, database, secrets, migrations, OAuth callbacks, webhooks, and logs all work together end to end.
+          - The homepage loads once with no database attached.
+          - The repository contains the production secrets.
+          - The app works only on the developer's laptop.
+        correct_index: 0
+        correct_feedback: Correct. Production readiness is an end-to-end system property.
+        incorrect_feedback: Think about all the moving pieces your app depends on after it leaves your laptop.
+
   advanced_module_roadmap:
     - {number: 16, title: Multi-Tenant SaaS Architecture}
     - {number: 17, title: SaaS V2 and Rebilling}
